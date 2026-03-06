@@ -4,9 +4,9 @@ import requests
 url = "http://127.0.0.1:8000/get_data"
 url_train = "http://127.0.0.1:8000/train"
 
-
-st.session_state["columns"] = []
-
+if "columns" not in st.session_state:
+    st.session_state["columns"] = [] 
+    
 uploaded_file = st.file_uploader("Upload CSV file")
 if st.button("press"):
     my_files = {
@@ -27,10 +27,10 @@ if st.button("press"):
         st.error(f"Server Error: {response.status_code}. Check FastAPI terminal!")
         
         
-#modol=["lightgbm","catboot","tensor"]
+modol=["lightgbm","catboot","tensor"]
 x = st.multiselect("Input X? (Predictors)", options=st.session_state["columns"])
 y = st.selectbox("Input Y? (Target)", options=st.session_state["columns"])
-#model=st.selectbox("model",options=modol)
+model=st.selectbox("model",options=modol)
 
 
 if st.button("train") :
@@ -43,7 +43,7 @@ if st.button("train") :
     form_data = {
         "x_axis": x_string, 
         "y_axis": y ,
-        #"model":model
+        "model":model
     }
     
     response = requests.post(url_train, files=my_files, data=form_data)

@@ -19,8 +19,8 @@ def specific(
     x_axis: str = Form(), 
     y_axis: str = Form(),
     model: str=Form()
-):
-    # 1. Read the file and handle financial commas
+    ):
+    
     df = pd.read_csv(file.file, thousands=',')
     
     logging.info("Available Columns:", df.columns.tolist())
